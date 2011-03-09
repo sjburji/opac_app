@@ -27,6 +27,7 @@ Opac::Application.routes.draw do
   match 'consignments/booksearch' => 'consignments#booksearch'
   match 'consignments/:id/transition/:event' => 'consignments#transition'
   match '/titles/qryAltTitle' => 'titles#qryAltTitle'
+  match 'plans/overview' => 'plans#overview'
   resources :titles, :authors, :ibtrs, :branches, :stock, :stockitems, :authentications, :signups, :plans, :coupons, :consignments, :goods, :ibt_reassigns, :batches
   
   match 'statistics/:title_id' => 'statistics#view'
@@ -40,9 +41,16 @@ Opac::Application.routes.draw do
   match 'ibtrs_alttitle' => 'ibtrs#setAltTitle'
   match 'ibtrs_drillrpt' =>   'ibtrs#drillrpt'
 
+  match 'memberSearch' => 'signups_report#signups_report'
   match 'report' => 'signups_report#signups_report'
   match 'report_details' => 'signups_report#report_details'
   match 'newMemberReversal' => 'signups_report#newMemberReversal'
+  match 'reSendWelcomeMail' => 'signups_report#reSendWelcomeMail'
+  match 'rePrintReceipt' => 'signups_report#rePrintReceipt'
+  
+  match 'planDetails' =>'plans#plandetails'
+  match 'totalDetails' =>'plans#paymentdetails'
+  match 'planSearch' => 'plans#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

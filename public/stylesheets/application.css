@@ -94,18 +94,72 @@ th .desc {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-	display:block;
+  display:block;
+  text-decoration: none;
   width: 200px;
   color: #fff;
   background: #B51F24;
   padding: 10px;
 }
 
+ #planbox a{
+  text-decoration: none;
+}
+
+.planbox-indiv {
+  margin-left: 2px; margin-right: 2px; margin-top: 5px; margin-bottom: 5px;
+  text-align: center;
+  width: 120px;
+  height: 60px;
+  color: #fff;
+  background: #175E9D;
+  padding-left:1px; padding-right:1px;
+  border-width:1px;
+}
+
+.planbox-corp {
+  margin-left: 2px; margin-right: 2px; margin-top: 5px; margin-bottom: 5px;
+  text-align: center;
+  width: 120px;
+  height: 60px;
+  color: #fff;
+  background: #2283C9;
+  padding-left:1px; padding-right:1px;
+  border-width:1px;
+}
+
+.planbox-od {
+  margin-left: 2px; margin-right: 2px; margin-top: 5px; margin-bottom: 5px;
+  text-align: center;
+  width: 120px;
+  height: 60px;
+  color: #fff;
+  background: #1FAEC9;
+  padding-left:1px; padding-right:1px;
+  border-width:1px;
+}
+
+  #planlist_id a{
+  text-decoration: none;
+  float:left;
+  padding-left:20px;
+  padding-bottom:20px;
+  line-height:17px;
+}
+
 .planbox-title {
 	text-decoration: underline;
 	color:black;
 	text-align:center;
-	font-size:150%;
+	font-size:150%;	
+	display:block;
+}
+
+.planbox-plantitle {
+	text-decoration: underline;
+	color:black;
+	text-align:center;
+	font-size:100%;
 	font-weight:bold;
 	display:block;
 }
@@ -141,12 +195,38 @@ th .desc {
 	text-align:left;
 }
 
+#plan_duration_css_id {
+  margin-left: 35%;
+  text-decoration: none;
+}
+
+.plan{
+  text-decoration: none;
+  float: left;
+  padding: 1px;
+  width: 32.5%;
+  height: 32px;
+}
+
+
+.current{
+    background: #B51F24;
+    text-decoration: none;
+}
+
+.current-plan{
+    text-decoration: none;
+    color: #fff;
+}
+
 .plan-buttonpanel {
-	display:block;
-  width: 368px;
-	margin-bottom:20px;
+  display:block;
+  width: 225px;
+  height:35px;
+  line-height: 35px;
+  margin-bottom:20px;
   background: lightgrey;
-	margin-left:48px;
+  text-align: center;
 }
 
 .plan-button {

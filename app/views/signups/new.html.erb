@@ -43,36 +43,49 @@
 				<%= f.label '(M)'.capitalize() %> <%= f.telephone_field :mphone, :class => 'title simple', :maxlength => 10, :style => 'width:20%' %>
 				<%= f.label '(L)'.capitalize() %> <%= f.telephone_field :lphone, :class => 'title simple', :maxlength => 10, :style => 'width:20%' %>
 				<%= f.label :email %>
-				<%= f.text_field :email, :class => 'title simple', :maxlength => 100, :style => 'width:271px;' %>
-			</div>
-
-			<div>
-				<%= f.label 'Referred By' %>
-				<%= f.text_field :referrer_member_id, :class => 'title simple', :maxlength => 20, :style => 'width:40%' %>
-				<%= f.label 'Employee Number' %>
-				<%= f.text_field :employee_no, :class => 'title simple', :maxlength => 20, :style => 'width:201px' %>
+				<%= f.text_field :email, :class => 'title simple', :maxlength => 100, :style => 'width:280px;' %>
 			</div>
 
 			<div>
 				<%= f.label 'Membership #' %>
-				<%= f.text_field :membership_no, :class => 'title simple', :maxlength => 7, :style => 'width:40%' %>
+				<%= f.text_field :membership_no, :class => 'title simple', :maxlength => 7, :style => 'width:25%' %>
+                                <%= f.label 'Referred By' %>
+				<%= f.text_field :referrer_member_id, :class => 'title simple', :maxlength => 20, :style => 'width:18%' %>
 				<%= f.label 'Form #' %>
-				<%= f.text_field :application_no, :class => 'title simple', :maxlength => 20, :style => 'width:254px', :disabled => true %>
+				<%= f.text_field :application_no, :class => 'title simple', :maxlength => 20, :style => 'width:26%', :disabled => true %>
 			</div>
+
+                        <div>
+                          <% if @plan.category == 'C'%>
+                          <br/>
+                            <%= f.collection_select(:company_id, Company.find(:all), :id, :name, {:include_blank => 'Select Company'} ) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <%= f.label 'Employee Number' %>
+                            <%= f.text_field :employee_no, :class => 'title simple', :maxlength => 20, :style => 'width:48%' %>
+                          <% end %>
+                        </div>
+
 
 			<div class="span-17 heading" style='margin-top:25px'>
 				Enter Payment Details
 			</div>
-
+                        
 			<div>
-				<em>Thank you for signing up 
+				<em>You are Signing up
 				<% if @plan.subscription -%> 
 					for <b><%= pluralize(@signup.signup_months, 'month') %> </b>
 				<% end -%>
 				for the <b><%= @plan.name %></b> plan. Changed your mind? <%= link_to 'Back to plans', :controller => "plans", :signUpMonths => @signup.signup_months %> .</em>
 			</div>
 
-			<br/>
+                        <br/>
+                        <%if @plan.frequency == 'M'%>
+                          <div>Change Membership period to -
+                           <% Rebate.find_all_by_category(@plan.rebate_category).each do |rebate| %>
+                            <%= link_to find_duration(rebate.membership_months), :controller=>"signups", :action=>"new", :plan_id => @plan.id, :signup_months => rebate.membership_months %>&nbsp;&nbsp;
+                           <% end -%>
+                          </div>
+                        <% end %>
+
 			<div class='span-10'>
 				<% if @plan.coupons.length > 0 -%>
 				<div class='span-5' style='text-align:left'><%= f.collection_select(:coupon_id, @plan.coupons, :id, :name, {:include_blank => 'Select Discount Coupon'} ) %></div>

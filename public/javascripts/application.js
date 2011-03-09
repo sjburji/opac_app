@@ -260,11 +260,22 @@ $('#signups_report').live('submit', function(){
     return false;
 });
 
+$('#memberSearchform').live('submit', function() {
+    var branch_id = $('#branch_id').val();
+    $.get('/report_details?' + 'branch_id=' + branch_id + '&modifyMode=T' +
+        '&query_text=' + $('#query_text').val(),
+            function(data){
+               $('#signups_report_details').html(data);
+            });
+
+            return false;
+});
+
 $('#nm_reversal a').live('click', function(){
-    var card_number = $(this).attr('card_number');
-    var nm_reversal = '#nm_reversal_' + card_number;
-    var nm_reversal_confirm = '#nm_reversal_confirm_' + card_number;
-    var nm_reversal_cancel = '#nm_reversal_cancel_' + card_number;
+    var signup_id = $(this).attr('signup_id');
+    var nm_reversal = '#nm_reversal_' + signup_id;
+    var nm_reversal_confirm = '#nm_reversal_confirm_' + signup_id;
+    var nm_reversal_cancel = '#nm_reversal_cancel_' + signup_id;
     $(nm_reversal).hide(400);
     $(nm_reversal_confirm).show(1000);
     $(nm_reversal_cancel).show(1000);
@@ -273,28 +284,162 @@ $('#nm_reversal a').live('click', function(){
 });
 
 $('#nm_reversal_confirm a').live('click', function(){
-    var card_number = $(this).attr('card_number');
-    $.get('/newMemberReversal?' + 'card_number=' + card_number,
-        function(){
-            $('#signups_report').submit();
+    var report_msg = '<img src="images/ajax-loading.gif" alt="loading ... "/>';
+    $('#signups_report_details').html(report_msg);
 
-            var report_msg = '<font color="green"><b>' +
-                "New Member Reversal done for : " +
-                card_number + '</b></font>'
-            $('#signups_report_msg').html(report_msg);
+    var signup_id = $(this).attr('signup_id');
+    $.get('/newMemberReversal?' + 'signup_id=' + signup_id,
+        function(data){
+            $('#memberSearchform').submit();
+            $('#signups_report_msg').html(data);
         });       
 
     return false;
 });
 
+
 $('#nm_reversal_cancel a').live('click', function(){
-    var card_number = $(this).attr('card_number');
-    var nm_reversal = '#nm_reversal_' + card_number;
-    var nm_reversal_confirm = '#nm_reversal_confirm_' + card_number;
-    var nm_reversal_cancel = '#nm_reversal_cancel_' + card_number;
+    var signup_id = $(this).attr('signup_id');
+    var nm_reversal = '#nm_reversal_' + signup_id;
+    var nm_reversal_confirm = '#nm_reversal_confirm_' + signup_id;
+    var nm_reversal_cancel = '#nm_reversal_cancel_' + signup_id;
     $(nm_reversal_confirm).hide(400);
     $(nm_reversal_cancel).hide(400);
     $(nm_reversal).show(1000);
+
+    return false;
+});
+
+
+$('#nm_resend_wmail a').live('click', function(){
+    var signup_id = $(this).attr('signup_id');
+    var nm_resend_wmail = '#nm_resend_wmail_' + signup_id;
+    var nm_resend_wmail_confirm = '#nm_resend_wmail_confirm_' + signup_id;
+    var nm_resend_wmail_cancel = '#nm_resend_wmail_cancel_' + signup_id;
+    $(nm_resend_wmail).hide(400);
+    $(nm_resend_wmail_confirm).show(1000);
+    $(nm_resend_wmail_cancel).show(1000);
+
+    return false;
+});
+
+$('#nm_resend_wmail_confirm a').live('click', function(){    
+    var report_msg = '<img src="images/ajax-loading.gif" alt="loading ... "/>';
+    $('#signups_report_details').html(report_msg);
+    
+    var signup_id = $(this).attr('signup_id');
+    $.get('/reSendWelcomeMail?' + 'signup_id=' + signup_id,
+        function(data){
+            $('#memberSearchform').submit();
+            $('#signups_report_msg').html(data);
+        });
+
+    return false;
+});
+
+
+$('#nm_resend_wmail_cancel a').live('click', function(){
+    var signup_id = $(this).attr('signup_id');
+    var nm_resend_wmail = '#nm_resend_wmail_' + signup_id;
+    var nm_resend_wmail_confirm = '#nm_resend_wmail_confirm_' + signup_id;
+    var nm_resend_wmail_cancel = '#nm_resend_wmail_cancel_' + signup_id;
+    $(nm_resend_wmail_confirm).hide(400);
+    $(nm_resend_wmail_cancel).hide(400);
+    $(nm_resend_wmail).show(1000);
+
+    return false;
+});
+
+$('#nm_reprint_receipt a').live('click', function(){
+    var signup_id = $(this).attr('signup_id');
+    $.get('/rePrintReceipt?' + 'signup_id=' + signup_id,
+        function(data){
+            $('#re_print_receipt').html(data);
+            $('#re_print_receipt').show();
+            
+            $('#re_print_receipt').printElement({
+                overrideElementCSS:['stylesheets/print.css', { href:'stylesheets/print.css', media:'print'}],
+                leaveOpen:true,
+                printMode:'popup'
+            });
+            
+            $('#re_print_receipt').hide();
+        });
+
+    return false;
+});
+
+
+    function computePlanTotal(){
+      var sd = 0; var reg_fee = 0; var read_fee = 0; var mag_fee = 0;
+
+      var temp = parseFloat($('#plan_security_deposit').val());
+      if(!isNaN(temp))
+        sd = temp;
+
+      temp = parseFloat($('#plan_registration_fee').val());
+      if(!isNaN(temp))
+        reg_fee = temp;
+
+      temp = parseFloat($('#plan_reading_fee').val());
+      if(!isNaN(temp))
+        read_fee = temp;
+
+      temp = parseFloat($('#plan_magazine_fee').val());
+      if(!isNaN(temp))
+        mag_fee = temp;
+
+      temp = sd + reg_fee + read_fee + mag_fee;
+      $('#plan_total').html('<b>' + temp + '</b>');
+    }
+
+  $('#plan_security_deposit').live('blur', function(){
+    computePlanTotal();
+  });
+
+  $('#plan_registration_fee').live('blur', function(){
+    computePlanTotal();
+  });
+
+  $('#plan_reading_fee').live('blur', function(){
+    computePlanTotal();
+  });
+
+  $('#plan_magazine_fee').live('blur', function(){
+    computePlanTotal();
+  });
+
+
+$('#plans_div a').live('click', function(){
+
+    var plan_id = $(this).attr('plan_id');
+    $.get('/planDetails?' + 'plan_id=' + plan_id,
+        function(data){
+            $('#plan_details_div').html(data);
+        });
+      
+      $(plans_div).hide(400);
+    return false;
+});
+
+$('#duration_div a').live('click', function(){
+    var plan_id = $(this).attr('plan_id');
+    var signup_months = $(this).attr('signup_months');
+
+    $.get('/totalDetails?' + 'plan_id=' + plan_id + '&signup_months=' + signup_months,
+        function(data){
+            $('#plan_details_div').html(data);
+        });
+
+    return false;
+});
+
+
+$('#backtoplans_div a').live('click', function(){
+    $(backtoplans_div).hide(400);
+    $(duration_div).hide(400);
+    $(details_div).hide(400);
+    $(plans_div).show(600);    
 
     return false;
 });

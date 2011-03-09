@@ -30,4 +30,14 @@ module PlansHelper
     html_options.merge!({ :class => 'plan-button plan-button-current' }) if (params[:signUpMonths].nil? && name.eql?('Monthly'))
     link_to name, options, html_options    
   end
+
+  def find_duration(months)
+     duration = case months.to_i
+       when 12 then "1 Year"
+       when 1 then "1 Month"
+       when 0 then "Non Subscription Plan"
+       else months.to_s + " Months"
+     end
+  end
+
 end

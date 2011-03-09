@@ -1,6 +1,7 @@
 class Branch < ActiveRecord::Base
-  has_many :satellites, :foreign_key => "parent_id", :class_name => "Branch"
-  
+  has_and_belongs_to_many :plans
+  has_and_belongs_to_many :coupons
+
   def self.branch_id_from_subdomain(subdomain)
     # replace this by searching for a parent branch with subdomain set in the short name
     # TODO
@@ -41,7 +42,7 @@ class Branch < ActiveRecord::Base
   def self.associate_branches(subdomain)
     branch_id = branch_id_from_subdomain(subdomain)
     if branch_id == 801
-      find(:all, :conditions => ['is_a IN(? , ?, ?)', 'H','W','T'])
+      find(:all, :conditions => ['category IN(? , ?, ?)', 'H','W','T'])
     else
       find(:all, :conditions => ['parent_id = ?', branch_id])
     end

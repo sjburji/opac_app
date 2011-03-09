@@ -1,36 +1,7 @@
-<script type="text/javascript">
-  function setPrinterDiv(id){
-    document.getElementById(id).style.display = 'block';
-
-    $('#receipt').printElement({
-      overrideElementCSS:['print.css', { href:'print.css', media:'print'}],
-      leaveOpen:true,
-      printMode:'popup'
-    });
-
-    document.getElementById(id).style.display = 'none';
-  }
-</script>
-
-<p><span style="font-family: geneva, arial, helvetica, sans-serif;font-size: 1.0em;"><u><b>Just Books Receipt/ Payment Voucher</b></u></span></p>
-<%= button_to_function 'Print Receipt', "setPrinterDiv('receipt');" %> 
-
-<%= link_to 'Back to plans', :controller => "plans", :signUpMonths => "1" %> 
-
-<br/><br/>
-This is the Registration confirmation email sent to your email id : <b><%= @signup.email %></b>
-<hr/>
-  <%= 
-        render :file => 'signup_mailer/registration_confirmation'
-  %>
-<br/>
-<hr/>
-
-<div id='receipt' style="display:none;">
   <div style="font-weight: bold; font-size: 14px;">
-    Just Books Receipt/<br/>Payment Voucher
+    Just Books Receipt/ Payment Voucher
   </div>
-  <div style="text-align:center;">	
+  <div style="text-align:center;">
 		<table>
 			<tr>
 				<td >Received with thanks from:</td>
@@ -120,4 +91,3 @@ This is the Registration confirmation email sent to your email id : <b><%= @sign
 	<p>
 	 	<p style="font-family: geneva, arial, helvetica, sans-serif;font-size: 0.75em;">Thank You For the Love of Books</p>
 	</p>
-</div>

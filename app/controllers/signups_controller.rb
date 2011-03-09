@@ -29,7 +29,7 @@ class SignupsController < ApplicationController
       q.branch_id = user_session['current_branch'].id
     end
     
-    if @signup.save
+    if @signup.save      
       redirect_to(@signup, :notice => 'Member Signed Up Successfully')
       SignupMailer.registration_confirmation(@signup).deliver
     else
